@@ -17,7 +17,6 @@ public class frontEnd {
         List<String> allTreasures = new ArrayList<>();
         List<String> mazeLines = new ArrayList<>();
         int allowedSteps = 0;
-        
         // EXTRACT NODES, TREASURES AND ALLOWED STEPS FROM INPUT
         try{
             allowedSteps = readInput(allNodes, allTreasures, mazeLines);
@@ -25,18 +24,15 @@ public class frontEnd {
             System.err.println("File FEin.txt was not found!");
             System.exit(0);
         }
-        
         // CONSTRUCT ATOMS 
         HashMap<Integer, String[]> atoms = new HashMap<>();
         HashMap<String[], Integer> atomsOp = new HashMap<>();
         HashMap<Integer, String> atomsForPrint = new HashMap<>(); // WILL BE USED AS BACK MATTER 
         constructAtoms(atoms, atomsOp, atomsForPrint, allNodes, allTreasures, allowedSteps);
-
         // CONSTRUCT TREASURES AND EDGES FOR EACH NODE
         HashMap<String, List<String>> nodeEdges = new HashMap<>();
         HashMap<String, List<String>> nodeTreasures = new HashMap<>();
         constructEdges(nodeEdges, nodeTreasures, allNodes, mazeLines);
-        
         // CONSTRUCT AND TRANSCRIBE CLAUSES
         List<List<Integer>> clauses = new ArrayList<>();
         category1(clauses, atoms, atomsOp);
@@ -47,7 +43,6 @@ public class frontEnd {
         category6(clauses, atoms, atomsOp);
         category7(clauses, atoms, atomsOp);
         category8(clauses, atoms, atomsOp, allowedSteps);
-
         // WRITE TO OUTPUT FILE
         try{
             writeResults(clauses, atomsForPrint);
@@ -141,7 +136,6 @@ public class frontEnd {
         // set nodeEdges and nodeTreasures
         //  - nodeEdges : { { key: node , value: [ adjNode1 , ... ] } ... }
         //  - nodeTreasures : { { key: node , value: [ treasure1@node , ... ] } ... }
-
         // Initiate an edge and treasure field for each node extracted
         for(String node : allNodes){
             List<String> adjNodes = new ArrayList<>();
@@ -174,7 +168,6 @@ public class frontEnd {
     HashMap<String[], Integer> atomsOp){
         // for each atom
         for (int i = 1; i <= atoms.size(); i++){
-            // 
             String[] firstPropositionArray = atoms.get(i);
             if(firstPropositionArray[0].equals("Has")){
                 break;
@@ -182,7 +175,6 @@ public class frontEnd {
             else{
                 String firstNode = firstPropositionArray[1].trim();
                 String firstTime = firstPropositionArray[2].trim();      
-                
                 // Category 1
                 for (int j = i+1; j <= atoms.size(); j++){
                     String[] secondPropositionArray = atoms.get(j);
@@ -208,7 +200,6 @@ public class frontEnd {
                 }
             }
         }
-        
         return;
     }
     

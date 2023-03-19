@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.*;
-import java.util.zip.Inflater;
 
 /**
  *  
@@ -36,6 +35,7 @@ public class backEnd {
         }
     }
 
+    // READ INPUT AND CONSTRUCT SOLUTION AS HASHMAP
     public static boolean readInput(List<Integer> truthList, 
     HashMap<Integer, String> solutionMap) throws FileNotFoundException{
         File backEndInFile = new File("DPout_BEin.txt");
@@ -101,6 +101,7 @@ public class backEnd {
         return true;
     }
     
+    // READ SOLUTION AND WRITE TO OUTPUT FILE
     public static void writeOutput(boolean solutionFound, HashMap<Integer, String> solutionMap) throws IOException{
         File backEndOutFile = new File("BEout.txt");
         try{
@@ -123,5 +124,4 @@ public class backEnd {
         }
         return;
     }
-
 }

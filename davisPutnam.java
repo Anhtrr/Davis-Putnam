@@ -44,7 +44,6 @@ public class davisPutnam {
                         return (s1_cmp - s2_cmp);
                     }
                 });
-                
                 writeResults(true, dpllResult, backMatterLines);
             }
         } catch (IOException e){
@@ -157,7 +156,6 @@ public class davisPutnam {
                 }
             }
         }
-        
         // CSCopy = copy(CS); BCopy=Copy(B);
         List<List<Integer>> clausesCOPY = new ArrayList<>();
         for (List<Integer> clause : clauses){
@@ -166,7 +164,6 @@ public class davisPutnam {
         }
         List<String> bindingsCOPY = new ArrayList<>(bindings);
         HashSet<Integer> atomsCOPY = new HashSet<>(atoms);
-
         // P = choose an unbound atom;
         int chosenAtom = 0;
         for(int atom: atomsCOPY){
@@ -177,31 +174,25 @@ public class davisPutnam {
             }
             break;
         }
-        
-
         // [CSCopy, BCopy] = propagate(CSCopy, BCopy, P, True); - [clauses, bindings, atoms]
         Object[] checkPropagate = new Object[3];
         checkPropagate = propagate(clausesCOPY, bindingsCOPY, atomsCOPY, chosenAtom, "T");
-
         // answer = dpll(CSCopy,BCopy);
         List<List<Integer>> clausesCOPY2 = (List<List<Integer>>) checkPropagate[0];
         List<String> bindingsCOPY2 = (List<String>) checkPropagate[1];
         HashSet<Integer> atomsCOPY2 = (HashSet<Integer>) checkPropagate[2];
         List<String> answer = new ArrayList<>();
         answer = DPLL(clausesCOPY2, bindingsCOPY2, atomsCOPY2);
-
         // if (answer != Fail) return answer;
         if(answer.size()>0 && !(answer.get(0).equals("FAIL"))){
             return answer;
         }
-
         // [CS, B] = propagate(CS, B, P, False);
         Object[] checkPropagate2 = new Object[3];
         checkPropagate2 = propagate(clauses, bindings, atoms, chosenAtom, "F");
         clauses = (List<List<Integer>>) checkPropagate2[0];
         bindings = (List<String>) checkPropagate2[1];
         atoms = (HashSet<Integer>) checkPropagate2[2];
-        
         // return dpll(CS,B)
         return DPLL(clauses, bindings, atoms);
     }
@@ -221,11 +212,9 @@ public class davisPutnam {
         if(newAtoms.contains(negatedChosenAtom)){
             newAtoms.remove(negatedChosenAtom);
         }
-
         // B = add <A,V> to B;
         String newBinding = (Integer.toString(chosenAtom).trim() + " " + sign.trim()).trim();
         newBindings.add(newBinding);
-
         // for (each clause C in CS) {
         for (List<Integer> clause : clauses){
             List<Integer> clauseCOPY = new ArrayList<>(clause);   
@@ -257,7 +246,6 @@ public class davisPutnam {
             }
             newClauses.add(clauseCOPY);
         }
-        
         // return (CS,B);
         Object[] result = new Object[3]; // [clauses, bindings, atoms]
         result[0] = newClauses;
@@ -277,7 +265,6 @@ public class davisPutnam {
         int result = 0;
         int S_node = 0;
         int PL_node = 0;
-        
         // Singleton Check
         for (List<Integer> clause : clauses){
             if(clause.size() == 1){
@@ -301,7 +288,6 @@ public class davisPutnam {
                 }
             }
         }
-
         // RETURN CASES
         if(singleton){
             List<HashSet<Integer>> singletonCase = new ArrayList<>();
@@ -370,3 +356,11 @@ public class davisPutnam {
         return;
     }
 }
+
+// CITATIONS
+//  - https://www.baeldung.com/java-suppresswarnings
+//  - https://www.geeksforgeeks.org/how-to-create-array-of-objects-in-java/
+//  - https://docs.oracle.com/javase/8/docs/api/java/io/FileWriter.html
+//  - https://www.geeksforgeeks.org/collections-sort-java-examples/
+//  - https://howtodoinjava.com/java/sort/collections-sort/
+//  - Slides on course website: Pseudocode for Davis-Putnam
